@@ -9,19 +9,26 @@ pub struct Password
     password: String,
 }
 
+impl From<&str> for Password
+{
+    fn from (text: &str) -> Self
+    {
+        let re = Regex::new(r"(\d+)-(\d+) (\w): (\w+)").unwrap();
+
+            let cap = re.captures_iter(text).nth(0).unwrap(); //just the first match
+
+            Password{bound: (cap.get(1).unwrap().as_str().parse().unwrap(), 
+                               cap.get(2).unwrap().as_str().parse().unwrap()), 
+                    limit: cap.get(3).unwrap().as_str().chars().nth(0).unwrap(), 
+                    password: String::from(cap.get(4).unwrap().as_str()) }
+    }
+}
+
 #[aoc_generator(day2)]
 pub fn input_generator(input: &str) -> Vec<Password> {
     input
         .lines()
-        .map(|l| { 
-            let re = Regex::new(r"(\d+)-(\d+) (\w): (\w+)").unwrap();
-
-            let cap = re.captures_iter(l).nth(0).unwrap(); //just the first match
-
-            Password{bound: (cap.get(1).unwrap().as_str().parse().unwrap(), cap.get(2).unwrap().as_str().parse().unwrap()), 
-                        limit: cap.get(3).unwrap().as_str().chars().nth(0).unwrap(), 
-                        password: String::from(cap.get(4).unwrap().as_str()) }
-        })
+        .map(Password::from)
         .collect()
 }
 

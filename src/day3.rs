@@ -5,12 +5,24 @@ pub enum MapTile
     Open
 }
 
+impl From<char> for MapTile
+{
+    fn from(c: char) -> Self {
+            match c
+            {
+                '#' => MapTile::Tree,
+                '.' => MapTile::Open,
+                _ => panic!("Unrecognized char for map.")
+            }
+    }
+}
+
 #[aoc_generator(day3)]
 pub fn input_generator(input: &str) -> Vec<Vec<MapTile>> {
     input
         .lines()
         .map(|l| { 
-            l.chars().map(|c| if c == '.' { MapTile::Open } else { MapTile::Tree }).collect::<Vec<_>>()
+            l.chars().map(MapTile::from).collect::<Vec<_>>()
         })
         .collect()
 }
