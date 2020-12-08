@@ -45,9 +45,8 @@ pub fn solve_part1(input: &HashMap<String, Bag>) -> u64 {
     while can_contain_shiny_gold_bag.iter().find(|(_, v)| v.is_none()).is_some()
     {
         input.iter().for_each(|(k, v)| {
-            let entry = can_contain_shiny_gold_bag.get(k.as_str()).unwrap();
 
-            if entry.is_none() {
+            if can_contain_shiny_gold_bag.get(k.as_str()).unwrap().is_none() {
 
                 let can_contain = match &v.contents {
                     Some(contents) => {
