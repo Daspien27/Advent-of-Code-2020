@@ -1,7 +1,7 @@
 use regex::*;
 use std::collections::HashSet;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone)]
 enum Instruction
 {
     Acc(i64),
@@ -55,7 +55,7 @@ impl Console {
 
         loop {
 
-            if self.instruction_ptr == self.program.len() as isize{
+            if self.instruction_ptr == self.program.len() as isize {
                 break;
             }
 
@@ -119,13 +119,7 @@ pub fn solve_part1(input: &Console) -> i64 {
 #[aoc(day8, part2)]
 pub fn solve_part2(input: &Console) -> i64 {
     
-    (0..input.program.len()).skip_while(|i|{
-        
-        match input.program[*i] {
-            Instruction::Acc(_) => false,
-            _ => true,
-        }
-    }).find_map(|i|{
+    (0..input.program.len()).find_map(|i|{
         let mut main_console = input.clone();
 
         match main_console.program[i] {
