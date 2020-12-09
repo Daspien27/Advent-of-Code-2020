@@ -32,12 +32,12 @@ pub fn solve_part1(input: &Vec<u64>) -> u64 {
 
 #[aoc(day9, part2)]
 pub fn solve_part2(input: &Vec<u64>) -> Option<u64> {
-    const STEP1_ERROR : u64 = 32321523;
+    let step1_error = solve_part1(&input);
 
     for i in 0..input.len() {
         for j in (i+2)..input.len() {
-            if *&input[i..j].iter().sum::<u64>() == STEP1_ERROR {
-                return  Some(**&input[i..j].iter().min().unwrap() + **&input[i..j].iter().max().unwrap());
+            if input[i..j].iter().sum::<u64>() == step1_error {
+                return  Some(*input[i..j].iter().min().unwrap() + *input[i..j].iter().max().unwrap());
             }
         }
     }
